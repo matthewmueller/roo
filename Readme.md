@@ -126,7 +126,7 @@ Compress CSS and JS assets
 
 ##### `Roo.directory()`
 
-Roo the entire directory using [koa-roo-index](https://github.com/yiminghe/koa-roo-index)
+Roo the entire directory using [koa-serve-index](https://github.com/yiminghe/koa-serve-index)
 
 ##### `Roo.static(directory)`
 

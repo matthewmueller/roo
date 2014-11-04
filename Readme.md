@@ -5,6 +5,13 @@
 
   Jump-start your front-end server. Bundles and configures the boilerplate of a Koa app. Originally inspired by [tj/serve](https://github.com/tj/serve).
 
+## Features
+
+  * Flexible: Javascript & CLI API
+  * Deployable: Ready to be deployed to Dokku or Heroku
+  * Composable: Mount Koa servers within or mount within other Koa servers.
+  * Higher-level: Templating, Routing & Duo baked-in
+
 ## Example
 
 **API:**
@@ -44,13 +51,6 @@ Options:
       --no-dirs             disable directory rendering
       --no-compress         disable compression
 ```
-
-## Features
-
-  * Flexible: Javascript & CLI API
-  * Deployable: Ready to be deployed to Dokku or Heroku
-  * Composable: Mount Koa servers within or mount within other Koa servers.
-  * Higher-level: Templating, Routing & Duo baked-in
 
 ## API
 

@@ -53,23 +53,23 @@ roo
   .post('/signup', signup)
 ```
 
-#### `Roo.favicon(path)`
+##### `Roo.favicon(path)`
 
 Set a favicon at `path`
 
-#### `Roo.auth(user, pass)`
+##### `Roo.auth(user, pass)`
 
 Add basic auth with a `user` and `pass`.
 
-#### `Roo.exec(command)`
+##### `Roo.exec(command)`
 
 Execute a `command` every refresh
 
-#### `Roo.use(generator)`
+##### `Roo.use(generator)`
 
 Pass additional middleware `generator`'s to `Roo`.
 
-#### `Roo.mount(path)`
+##### `Roo.mount(path)`
 
 Mount inside another app at `path`.
 
@@ -77,7 +77,7 @@ Mount inside another app at `path`.
 app.use(roo.mount('/dashboard'));
 ```
 
-#### `Roo.mount(path, app)`
+##### `Roo.mount(path, app)`
 
 Mount an app inside of `Roo` at `path`
 
@@ -85,27 +85,27 @@ Mount an app inside of `Roo` at `path`
 roo.mount('/dashboard', app);
 ```
 
-#### `Roo.duo(file|glob)`
+##### `Roo.duo(file|glob)`
 
 Pass a `file` or `glob` expression to be compiled using [duo](http://duojs.com).
 
-#### `Roo.compress()`
+##### `Roo.compress()`
 
 Compress CSS and JS assets
 
-#### `Roo.directory()`
+##### `Roo.directory()`
 
 Roo the entire directory using [koa-roo-index](https://github.com/yiminghe/koa-roo-index)
 
-#### `Roo.static(directory)`
+##### `Roo.static(directory)`
 
 Add a static asset `directory` to roo from
 
-#### `Roo.cors([options])`
+##### `Roo.cors([options])`
 
 Enable `CORS` on the roo. `options` get passed directly to [node-cors](https://github.com/troygoode/node-cors/).
 
-#### `Roo.listen(port, fn)`
+##### `Roo.listen(port, fn)`
 
 Start the server on `port`. You may pass the environment variable `PORT=8080` in to specify a port. Otherwise it defaults to `3000` if otherwise not specified.
 

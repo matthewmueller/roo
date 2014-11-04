@@ -1,12 +1,12 @@
 {
-  "name": "mini-server",
+  "name": "roo",
   "version": "0.0.1",
   "description": "simple server for koa. inspired by tj/serve",
   "keywords": [],
   "author": "Matthew Mueller <matt@lapwinglabs.com>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/lapwinglabs/mini-server.git"
+    "url": "git://github.com/lapwinglabs/roo.git"
   },
   "dependencies": {
     "co-exec": "~1.1.0",

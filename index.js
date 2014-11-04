@@ -8,4 +8,4 @@ require('gnode');
  * Export `Duo`.
  */
 
-module.exports = require('./lib/mini-server');
+module.exports = require('./lib/roo');

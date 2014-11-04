@@ -12,7 +12,7 @@ var spawn = require('win-fork');
  */
 
 var gnode = require.resolve('gnode/bin/gnode');
-var duo = path.resolve(__dirname, '_mini-server');
+var duo = path.resolve(__dirname, '_roo');
 var args = [duo].concat(process.argv.slice(2));
 
 /**

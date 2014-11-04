@@ -5,6 +5,20 @@
 
   Jump-start your front-end server. Bundles and configures the boilerplate of a Koa app. Originally inspired by [tj/serve](https://github.com/tj/serve).
 
+## Installation
+
+Using the CLI:
+
+```bash
+npm install -g roo
+```
+
+Using the API:
+
+```bash
+npm install roo
+```
+
 ## Features
 
   * Flexible: Javascript & CLI API

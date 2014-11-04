@@ -37,11 +37,11 @@ $ roo -h
 
 ## API
 
-#### `Roo(root)`
+##### `Roo(root)`
 
-Initialize `Roo` at the `root` path.
+Initialize `Roo` at the `root` path. Defaults to `.`.
 
-#### `Roo.{get,post,put,delete,...}(route[, middleware, ...], handle)`
+##### `Roo.{get,post,put,delete,...}(route[, middleware, ...], handle)`
 
 Add a route to `Roo`. Routing is powered by [kroute](https://github.com/blakeembrey/kroute), so visit there for API details.
 

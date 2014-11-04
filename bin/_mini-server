@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+
+/**
+ * Modules
+ */
+
+var Serve = require('../');
+var assert = require('assert');
+var glob = require('glob').sync;
+var stat = require('fs').statSync;
+var program = require('commander');
+var port = process.env.PORT || 3000;
+var resolve = require('path').resolve;
+var extname = require('path').extname;
+var basename = require('path').basename;
+
+/**
+ * Production
+ */
+
+var production = 'production' == process.env.NODE_ENV;
+
+/**
+ * Templates
+ */
+
+var templates = ['html', 'jade', 'mu', 'swig', 'ejs'];
+var rtemplate = new RegExp('.(' + templates.join('|') + ')', 'i');
+
+/**
+ * Program
+ */
+
+program
+  .version(require('../package.json').version)
+  .usage('[options] [dir]')
+  .option('-a, --auth <user>:<pass>', 'specify basic auth credentials')
+  .option('-p, --port <port>', 'specify the port [process.env.PORT || 3000]', Number, port)
+  .option('-f, --favicon <path>', 'serve the given favicon')
+  .option('-d, --duo <path|glob>', 'set a path or glob for duo [*.{css,js}]', '*.{css,js}')
+  .option('-i, --index', 'set the entry point for "/" [index.*]')
+  .option('-s, --static <dir>', 'set a static path ["."]')
+  .option('-c, --cors', 'allows cross origin access serving')
+  .option('-e  --exec <cmd>', 'execute command on each request')
+  .option('    --no-dirs', 'disable directory rendering')
+  .option('    --no-compress', 'disable compression')
+  .parse(process.argv);
+
+// initialize
+var root = resolve(program.args.shift() || '.');
+assert(stat(root).isDirectory(), root + ': is not a directory');
+
+var base = basename(root);
+var serve = Serve(root);
+
+// basic auth
+if (program.auth) {
+  var user = program.auth.split(':')[0];
+  var pass = program.auth.split(':')[1];
+  if (!user || !pass) throw new Error('user and pass required');
+  serve.auth(user, pass);
+}
+
+// exec
+program.exec && serve.exec(program.exec);
+
+// compress
+production && program.compress && serve.compress();
+
+// duo
+program.duo && serve.duo(program.duo);
+
+// index entry "/"
+if (program.index) {
+  serve.get('/', program.index);
+} else {
+  var files = glob('{' + base + ',index}.*', { cwd: root });
+  var index = files.filter(function(file) {
+    return rtemplate.test(extname(file));
+  }).shift();
+  index && serve.get('/', index);
+}
+
+// static
+program.static
+  ? serve.static(program.static)
+  : serve.static(root);
+
+// directory
+production && program.dirs && serve.directory();
+
+// listen
+program.port && serve.listen(port, function() {
+  console.log('Listening on port %s', this.address().port);
+})

@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var path = require('path');
+var spawn = require('win-fork');
+
+/**
+ * Resolve.
+ */
+
+var gnode = require.resolve('gnode/bin/gnode');
+var duo = path.resolve(__dirname, '_mini-server');
+var args = [duo].concat(process.argv.slice(2));
+
+/**
+ * Spawn.
+ */
+
+var proc = spawn(gnode, args, { stdio: 'inherit' });
+
+/**
+ * Exit.
+ */
+
+proc.on('exit', function (code) {
+  process.exit(code);
+});

@@ -26,6 +26,23 @@ Roo(__dirname)
 
 ```bash
 $ roo -h
+
+Usage: roo [options] [dir]
+
+Options:
+
+  -h, --help                output usage information
+  -V, --version             output the version number
+  -a, --auth <user>:<pass>  specify basic auth credentials
+  -p, --port <port>         specify the port [process.env.PORT || 3000]
+  -f, --favicon <path>      serve the given favicon
+  -d, --duo <path|glob>     set a path or glob for duo [*.{css,js}]
+  -i, --index               set the entry point for "/" [index.*]
+  -s, --static <dir>        set a static path ["."]
+  -c, --cors                allows cross origin access serving
+  -e  --exec <cmd>          execute command on each request
+      --no-dirs             disable directory rendering
+      --no-compress         disable compression
 ```
 
 ## Features

@@ -1,5 +1,5 @@
 
-# mini-roor
+# Roo
 
   High-level front-end roor using Koa. Inspired by [tj/roo](https://github.com/tj/roo).
 

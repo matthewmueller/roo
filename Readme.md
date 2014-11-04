@@ -1,9 +1,13 @@
 
 # Roo
 
-  High-level front-end roor using Koa. Inspired by [tj/roo](https://github.com/tj/roo).
+  ![kangaroo](https://cldup.com/X4VwDx3Mlx.png)
+
+  Jump-start your front-end server. Bundles and configures the boilerplate of a Koa app. Originally inspired by [tj/serve](https://github.com/tj/serve).
 
 ## Example
+
+**API:**
 
 ```js
 Roo(__dirname)
@@ -16,6 +20,12 @@ Roo(__dirname)
   .serve('build')
   .cors()
   .listen(4000);
+```
+
+**CLI**
+
+```bash
+$ roo -h
 ```
 
 ## Features
@@ -97,7 +107,7 @@ Enable `CORS` on the roo. `options` get passed directly to [node-cors](https://g
 
 ### `Roo.listen(port, fn)`
 
-Start the roor on `port`. You may pass the environment variable `PORT=8080` in to specify a port. Otherwise it defaults to `3000` if otherwise not specified.
+Start the server on `port`. You may pass the environment variable `PORT=8080` in to specify a port. Otherwise it defaults to `3000` if otherwise not specified.
 
 ## TODO
 
@@ -107,6 +117,10 @@ Start the roor on `port`. You may pass the environment variable `PORT=8080` in t
 ## Why Roo?
 
 Roo is short for Kangaroo. I wrote this while visiting Australia for [CampJS](http://campjs.com) and I have Kangaroos on my mind.
+
+## Credits
+
+Kangaroo Icon by [Olivier Guin](http://thenounproject.com/olivierguin)
 
 ## License
 

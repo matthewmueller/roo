@@ -8,11 +8,11 @@ var Serve = require('../');
 var assert = require('assert');
 var glob = require('glob').sync;
 var stat = require('fs').statSync;
-var program = require('commander');
 var port = process.env.PORT || 3000;
 var resolve = require('path').resolve;
 var extname = require('path').extname;
 var basename = require('path').basename;
+var Command = require('commander').Command;
 
 /**
  * Production
@@ -31,7 +31,7 @@ var rtemplate = new RegExp('.(' + templates.join('|') + ')', 'i');
  * Program
  */
 
-program
+var program = new Command('roo')
   .version(require('../package.json').version)
   .usage('[options] [dir]')
   .option('-a, --auth <user>:<pass>', 'specify basic auth credentials')

@@ -5,7 +5,7 @@
 require('gnode');
 
 /**
- * Export `Duo`.
+ * Export `Roo`.
  */
 
 module.exports = require('./lib/roo');

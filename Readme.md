@@ -142,7 +142,6 @@ Start the server on `port`. You may pass the environment variable `PORT=8080` in
 
 ## TODO
 
-- Automatic port binding
 - LiveReload support
 - Tests would be nice
 

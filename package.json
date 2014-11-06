@@ -18,6 +18,7 @@
     "co-views": "^0.2.0",
     "commander": "^2.5.0",
     "duo-bundle": "0.0.7",
+    "extend.js": "0.0.1",
     "glob": "^4.0.6",
     "gnode": "~0.1.0",
     "jade": "^1.7.0",

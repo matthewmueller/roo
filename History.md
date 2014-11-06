@@ -1,4 +1,11 @@
 
+0.0.6 / 2014-11-06
+==================
+
+  * mounts now respect original roo.
+  * change prototype to roo.
+  * pass params to jade
+
 0.0.5 / 2014-11-05
 ==================
 

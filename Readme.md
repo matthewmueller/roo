@@ -74,7 +74,7 @@ Initialize `Roo` at the `root` path. Defaults to `.`.
 
 ##### `Roo.{get,post,put,delete,...}(route[, middleware, ...], handle)`
 
-Add a route to `Roo`. Routing is powered by [kroute](https://github.com/blakeembrey/kroute), so visit there for API details.
+Add a route to `Roo`. Routing is powered by [kr](https://github.com/lapwinglabs/kr), so visit there for API details.
 
 Additionally, you may pass a `filepath` to `handle`, which will render using [consolidate](https://github.com/tj/consolidate.js).
 

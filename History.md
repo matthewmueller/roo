@@ -1,4 +1,12 @@
 
+0.1.0 / 2014-11-12
+==================
+
+  * updated names. disable duo in production. add a way to pass multiple statics from CLI
+  * Release 0.0.12
+  * support html pages using hogan
+  * kroute => kr
+
 0.0.12 / 2014-11-12
 ==================
 

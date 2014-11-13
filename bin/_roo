@@ -4,7 +4,7 @@
  * Modules
  */
 
-var Serve = require('../');
+var Roo = require('../');
 var open = require('open');
 var assert = require('assert');
 var glob = require('glob').sync;
@@ -57,48 +57,51 @@ var root = resolve(program.args.shift() || '.');
 assert(stat(root).isDirectory(), root + ': is not a directory');
 
 var base = basename(root);
-var serve = Serve(root);
+var roo = Roo(root);
 
 // basic auth
 if (program.auth) {
   var user = program.auth.split(':')[0];
   var pass = program.auth.split(':')[1];
   if (!user || !pass) throw new Error('user and pass required');
-  serve.auth(user, pass);
+  roo.auth(user, pass);
 }
 
 // exec
-program.exec && serve.exec(program.exec);
+program.exec && roo.exec(program.exec);
 
 // compress
-production && program.compress && serve.compress();
+production && program.compress && roo.compress();
 
 // duo
-program.duo && serve.duo(program.duo);
+!production && program.duo && roo.duo(program.duo);
 
 // index entry "/"
 if (program.index) {
-  serve.get('/', program.index);
+  roo.get('/', program.index);
 } else {
   var files = glob('{' + base + ',index}.*', { cwd: root });
   var index = files.filter(function(file) {
     return rtemplate.test(extname(file));
   }).shift();
-  index && serve.get('/', index);
+  index && roo.get('/', index);
 }
 
 // static
-program.static
-  ? serve.static(program.static)
-  : serve.static(root);
+if (program.static) {
+  var statics = program.static.split(/\s*,\s*/);
+  statics.map(roo.static.bind(roo));
+} else {
+  roo.static(root);
+}
 
 // directory
-production && program.dirs && serve.directory();
+!production && program.dirs && roo.directory();
 
 // listen
 var port = program.port || process.env.PORT;
 
-serve.listen(port, function() {
+roo.listen(port, function() {
   console.log('Listening on port %s', this.address().port);
-  isatty && open('http://localhost:' + this.address().port);
+  !production && isatty && open('http://localhost:' + this.address().port);
 })

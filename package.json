@@ -1,6 +1,6 @@
 {
   "name": "roo",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "jump-start your front-end server",
   "keywords": [
     "server",
@@ -38,6 +38,7 @@
     "marked": "^0.3.2",
     "methods": "^1.1.0",
     "open": "0.0.5",
+    "uniques": "0.0.1",
     "win-fork": "~1.1.1"
   },
   "devDependencies": {

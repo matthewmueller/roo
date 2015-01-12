@@ -1,4 +1,11 @@
 
+0.1.7g / 2015-01-11
+==================
+
+  * bump koa-error
+  * fix roo's 'test'
+  * loosen dependency pinning on duo-build
+
 0.1.6 / 2014-12-09
 ==================
 

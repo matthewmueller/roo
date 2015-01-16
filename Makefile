@@ -1,5 +1,5 @@
 
 test:
-	@node --harmony test/index.js
+	mocha --harmony
 
 .PHONY: test

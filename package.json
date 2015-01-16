@@ -42,8 +42,8 @@
     "win-fork": "~1.1.1"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*"
+    "supertest": "^0.15.0",
+    "mocha": "2.x",
   },
   "bin": {
     "roo": "bin/roo"

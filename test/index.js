@@ -2,20 +2,86 @@
  * Module Dependencies
  */
 
-var bundle = require('duo-bundle')(__dirname);
-var roo = require('../');
+var request = require('supertest');
+var assert = require('assert');
+var Roo = require('roo');
 
-function *auth(next) {
-  console.log('authing!');
-  yield next;
-}
+/**
+ * Tests
+ */
 
-roo(__dirname)
-  .compress()
-  .duo('test.{js,css}')
-  .static('build')
-  .get('/', auth, 'test.jade')
-  .directory()
-  .listen(5000, function() {
-    console.log('listening on: %s', this.address().port);
+describe('Roo', function() {
+
+  describe('routing', function() {
+
+    it('should support GET requests', function(done) {
+      var roo = Roo(__dirname);
+      roo.get('/user', function *() {
+        this.body = 'matt';
+      });
+
+      request(roo.listen())
+        .get('/user')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.text == 'matt');
+          done();
+        })
+    })
+
+    it('should suport post requests', function(done) {
+      var roo = Roo(__dirname);
+      roo.post('/user', function *() {
+        this.body = 'matt';
+      });
+
+      request(roo.listen())
+        .post('/user')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.text == 'matt');
+          done();
+        })
+    })
+
+    it('should support parameters', function(done) {
+      var roo = Roo(__dirname);
+      roo.post('/:user', function *() {
+        assert('matt' == this.params.user)
+        this.body = 'matt';
+      });
+
+      request(roo.listen())
+        .post('/matt')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.text == 'matt');
+          done();
+        })
+    });
+
+    it('should render jade', function(done) {
+      var roo = Roo(__dirname);
+      roo.get('/user', function *() {
+        this.body = yield roo.render('./fixtures/jade/index.jade');
+      });
+
+      request(roo.listen())
+        .get('/user')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.text == '<h1>header</h1><h2>hi</h2>');
+          done();
+        })
+    })
   });
+
+  it('should response to /', function() {
+
+  })
+
+});

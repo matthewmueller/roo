@@ -1,4 +1,11 @@
 
+0.2.0 / 2015-01-19
+==================
+
+  * started: tests
+  * remove: default logging
+  * add: log filtering
+
 0.1.8 / 2015-01-11
 ==================
 

@@ -2,9 +2,10 @@
  * Module Dependencies
  */
 
+var stdout = require('catch-stdout');
 var request = require('supertest');
 var assert = require('assert');
-var Roo = require('roo');
+var Roo = require('../');
 
 /**
  * Tests
@@ -84,4 +85,66 @@ describe('Roo', function() {
 
   })
 
+  describe('logger([fn])', function() {
+    it('should log when true', function(done) {
+      var roo = Roo(__dirname)
+        .logger()
+        .get('/user', function *() { this.body = 'user'; });
+
+      var restore = stdout();
+
+      request(roo.listen())
+        .get('/user')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert('user' == res.text);
+          var value = restore();
+          assert(~value.indexOf('<--'))
+          assert(~value.indexOf('GET'))
+          assert(~value.indexOf('/user'))
+          assert(~value.indexOf('-->'))
+          assert(~value.indexOf('GET'))
+          assert(~value.indexOf('/user'))
+          assert(~value.indexOf('200'))
+          done();
+        })
+
+    });
+  });
+
+  it('should support filtering', function(done) {
+    var roo = Roo(__dirname)
+      .logger(filter)
+      .get('/user', function *() { this.body = 'user'; })
+      .get('/posts', function *() { this.body = 'posts'; });
+
+    var server = roo.listen();
+
+    var a = stdout();
+    request(server)
+      .get('/user')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) return done(err);
+        assert('user' == res.text);
+        var value = a();
+        assert(value.length);
+
+        var b = stdout();
+        request(server)
+          .get('/posts')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            var value = b();
+            assert(!value.length);
+            done();
+          })
+      })
+
+    function filter(ctx) {
+      return ctx.url == '/posts' ? false : true;
+    }
+  })
 });

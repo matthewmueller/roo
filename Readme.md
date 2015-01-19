@@ -92,6 +92,18 @@ Set a favicon at `path`
 
 Add basic auth with a `user` and `pass`.
 
+##### `Roo.logger([fn])`
+
+Add route logging with an optional filter `fn`.
+
+```js
+roo.logger(function(ctx) {
+  return extname(ctx.url) ? false : true;
+});
+```
+
+`ctx` in this case is a "koa context".
+
 ##### `Roo.exec(command)`
 
 Execute a `command` every refresh

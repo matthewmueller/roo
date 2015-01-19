@@ -5,6 +5,8 @@
 var stdout = require('catch-stdout');
 var request = require('supertest');
 var assert = require('assert');
+var path = require('path');
+var extname = path.extname;
 var Roo = require('../');
 
 /**
@@ -117,7 +119,7 @@ describe('Roo', function() {
     var roo = Roo(__dirname)
       .logger(filter)
       .get('/user', function *() { this.body = 'user'; })
-      .get('/posts', function *() { this.body = 'posts'; });
+      .get('/user.js', function *() { this.body = 'posts'; });
 
     var server = roo.listen();
 
@@ -133,7 +135,7 @@ describe('Roo', function() {
 
         var b = stdout();
         request(server)
-          .get('/posts')
+          .get('/user.js')
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
@@ -144,7 +146,7 @@ describe('Roo', function() {
       })
 
     function filter(ctx) {
-      return ctx.url == '/posts' ? false : true;
+      return extname(ctx.url) ? false : true;
     }
   })
 });

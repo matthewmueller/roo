@@ -130,7 +130,7 @@ roo.mount('/dashboard', app);
 
 ##### `Roo.duo(file|glob)`
 
-Pass a `file` or `glob` expression to be compiled using [duo](http://duojs.com).
+Pass a `file` or `glob` expression to be compiled using [duo](http://duojs.org).
 
 ##### `Roo.compress()`
 

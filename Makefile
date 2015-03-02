@@ -1,5 +1,5 @@
 
 test:
-	mocha --harmony
+	@mocha --harmony
 
 .PHONY: test

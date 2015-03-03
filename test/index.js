@@ -2,12 +2,14 @@
  * Module Dependencies
  */
 
+var Browserify = require('browserify');
 var stdout = require('catch-stdout');
 var request = require('supertest');
 var assert = require('assert');
 var path = require('path');
 var extname = path.extname;
 var Roo = require('../');
+var duo = require('duo');
 
 /**
  * Tests
@@ -190,6 +192,113 @@ describe('Roo', function() {
         .expect('Access-Control-Allow-Origin', '*')
         .expect({foo: 'bar'})
         .expect(200, done);
+    })
+  });
+
+  describe('roo.mount(path, roo)', function() {
+    it('should support mounting other roo apps', function(done) {
+      var a = Roo(__dirname);
+      var b = Roo(__dirname);
+      a.mount('/a', b);
+      b.get('/b', function *() {
+        this.body = 'from b';
+      });
+
+      request(a.listen())
+        .get('/a/b')
+        .expect(200)
+        .expect('from b', done)
+    });
+
+    // it('should maintain parent and root references', function(done) {
+    //   var a = Roo(__dirname);
+    //   a.id = 'a';
+    //   var b = Roo(__dirname);
+    //   b.id = 'b';
+    //   var c = Roo(__dirname);
+    //   c.id = 'c';
+    //
+    //   a.mount('/a', b);
+    //   b.mount('/b', c);
+    //
+    //   assert(c.parent.id == 'b');
+    //   assert(c.root.id == 'a');
+    //
+    //   assert(b.parent.id == 'a');
+    //   assert(b.root.id == 'a');
+    // });
+
+  });
+
+  describe('roo.bundle(str|fn)', function() {
+    it('should bundle simple files', function(done) {
+      var roo = Roo(__dirname);
+
+      roo.bundle(function(file, fn) {
+        return fn(null, file);
+      });
+
+      roo.bundle('fixtures/bundle/out.{css,js}');
+
+      request(roo.listen())
+        .get('/fixtures/bundle/out.js')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.type == 'application/javascript');
+          assert(res.text == 'module.exports = require(\'./dep.js\');\n');
+          done();
+        })
+    });
+
+    it('should support browserify', function(done) {
+      var roo = Roo(__dirname);
+
+      roo.bundle(function(file) {
+        var browserify = Browserify();
+        browserify.add(file.path);
+        file.src = browserify.bundle();
+        return file;
+      });
+
+      roo.bundle('fixtures/bundle/out.{css,js}');
+
+      request(roo.listen())
+        .get('/fixtures/bundle/out.js')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.type == 'application/javascript');
+          assert(~res.text.indexOf('[function(require,module,exports){'));
+          done();
+        });
+
+    })
+
+    it('should support duo', function(done) {
+      var roo = Roo(__dirname);
+
+      roo.bundle(function(file, done) {
+        duo(file.root)
+          .entry(file.path)
+          .run(function(err, src) {
+            if (err) return done(err);
+            file.src = src;
+            done(null, file);
+          })
+      });
+
+      roo.bundle('fixtures/bundle/out.{css,js}');
+
+      request(roo.listen())
+        .get('/fixtures/bundle/out.js')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.type == 'application/javascript');
+          assert(~res.text.indexOf('(function outer(modules, cache, entries){'));
+          done();
+        })
     })
   });
 

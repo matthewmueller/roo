@@ -10,6 +10,7 @@ var path = require('path');
 var extname = path.extname;
 var Roo = require('../');
 var duo = require('duo');
+var join = path.join;
 
 /**
  * Tests
@@ -250,6 +251,56 @@ describe('Roo', function() {
           done();
         })
     });
+
+    it('should work with css files', function(done) {
+      var roo = Roo(__dirname);
+
+      roo.bundle(function(file) {
+        file.src = file.src.replace(/\s/g, '');
+        return file;
+      });
+
+      roo.bundle('fixtures/bundle/out.{css,js}');
+
+      request(roo.listen())
+        .get('/fixtures/bundle/out.css')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.type == 'text/css');
+          assert(res.text == 'body{background:blue;}');
+          done();
+        })
+    })
+
+    it('should work with mounts', function(done) {
+      var app = Roo(__dirname);
+      var signup = Roo(join(__dirname, 'fixtures', 'bundle'));
+
+      app.bundle(function(file) {
+        return file;
+      });
+
+      signup.bundle('out.js');
+      app.mount('/', signup);
+
+      request(signup.listen())
+        .get('/out.js')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert(res.text == 'module.exports = require(\'./dep.js\');\n');
+
+          request(app.listen())
+            .get('/fixtures/bundle/out.js')
+            .expect(200)
+            .end(function(err, res) {
+              if (err) return done(err);
+              assert(res.text == 'module.exports = require(\'./dep.js\');\n');
+              done();
+            });
+        });
+    })
 
     it('should support browserify', function(done) {
       var roo = Roo(__dirname);

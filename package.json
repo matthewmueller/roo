@@ -18,6 +18,7 @@
     "co-fs": "^1.2.0",
     "co-views": "^0.2.0",
     "commander": "^2.5.0",
+    "debug": "2",
     "extend.js": "0.0.1",
     "finalhandler": "^0.3.3",
     "glob": "^4.0.6",

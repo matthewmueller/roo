@@ -10,6 +10,7 @@ var path = require('path');
 var extname = path.extname;
 var Roo = require('../');
 var duo = require('duo');
+var fs = require('fs');
 var join = path.join;
 
 /**
@@ -210,25 +211,7 @@ describe('Roo', function() {
         .expect(200)
         .expect('from b', done)
     });
-
-    // it('should maintain parent and root references', function(done) {
-    //   var a = Roo(__dirname);
-    //   a.id = 'a';
-    //   var b = Roo(__dirname);
-    //   b.id = 'b';
-    //   var c = Roo(__dirname);
-    //   c.id = 'c';
-    //
-    //   a.mount('/a', b);
-    //   b.mount('/b', c);
-    //
-    //   assert(c.parent.id == 'b');
-    //   assert(c.root.id == 'a');
-    //
-    //   assert(b.parent.id == 'a');
-    //   assert(b.root.id == 'a');
-    // });
-
+    
   });
 
   describe('roo.bundle(str|fn)', function() {
@@ -236,7 +219,11 @@ describe('Roo', function() {
       var roo = Roo(__dirname);
 
       roo.bundle(function(file, fn) {
-        return fn(null, file);
+        fs.readFile(file.path, 'utf8', function(err, str) {
+          if (err) return fn(err);
+          file.src = str;
+          return fn(null, file);
+        })
       });
 
       roo.bundle('fixtures/bundle/out.{css,js}');
@@ -255,9 +242,12 @@ describe('Roo', function() {
     it('should work with css files', function(done) {
       var roo = Roo(__dirname);
 
-      roo.bundle(function(file) {
-        file.src = file.src.replace(/\s/g, '');
-        return file;
+      roo.bundle(function(file, fn) {
+        fs.readFile(file.path, 'utf8', function(err, str) {
+          if (err) return fn(err);
+          file.src = str;
+          return fn(null, file);
+        })
       });
 
       roo.bundle('fixtures/bundle/out.{css,js}');
@@ -268,7 +258,7 @@ describe('Roo', function() {
         .end(function(err, res) {
           if (err) return done(err);
           assert(res.type == 'text/css');
-          assert(res.text == 'body{background:blue;}');
+          assert(res.text == 'body {\n  background: blue;\n}\n');
           done();
         })
     })
@@ -277,11 +267,17 @@ describe('Roo', function() {
       var app = Roo(__dirname);
       var signup = Roo(join(__dirname, 'fixtures', 'bundle'));
 
-      app.bundle(function(file) {
-        return file;
+      app.bundle(function(file, fn) {
+        fs.readFile(file.path, 'utf8', function(err, str) {
+          if (err) return fn(err);
+          file.src = str;
+          return fn(null, file);
+        })
       });
 
+      app.bundle('fixtures/bundle/out.js');
       signup.bundle('out.js');
+
       app.mount('/', signup);
 
       request(signup.listen())

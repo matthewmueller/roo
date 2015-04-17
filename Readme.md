@@ -21,6 +21,7 @@ Some ideas of features we're currently considering:
 - Express middleware support using [http-context](https://github.com/lapwinglabs/http-context).
 - Configurable logging using [bole](https://github.com/rvagg/bole).
 - Pluggable message queues to encourage stateless servers.
+- Multipart support
 - BrowserSync / LiveReload support
 
 ## Installation

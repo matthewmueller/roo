@@ -211,7 +211,7 @@ describe('Roo', function() {
         .expect(200)
         .expect('from b', done)
     });
-    
+
   });
 
   describe('roo.bundle(str|fn)', function() {
@@ -483,4 +483,39 @@ describe('Roo', function() {
       return extname(ctx.url) ? false : true;
     }
   })
+  //
+  // describe('cluster(options)', function() {
+  //
+  //   it('should support zero-downtime', function(done) {
+  //     this.timeout(10000);
+  //
+  //     var roo = Roo()
+  //       .cluster({ workers: 1 })
+  //       .get('/kill', function *() {
+  //         console.log('here...');
+  //       })
+  //       .get('/', function() {
+  //         this.body = 'still alive';
+  //       })
+  //
+  //     roo.listen(function() {
+  //       var addr = this.address();
+  //       var url = 'http://' + addr.address + ':' + addr.port;
+  //       request(url)
+  //         .get('/kill')
+  //         .end(function() {
+  //           setTimeout(function() {
+  //             request(url)
+  //               .get('/')
+  //               .expect(200)
+  //               .end(function(err, res) {
+  //                 if (err) return done(err);
+  //                 assert('still alive' == res.text);
+  //                 done();
+  //               });
+  //           }, 1000);
+  //         })
+  //     });
+  //   });
+  // });
 });

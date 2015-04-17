@@ -3,7 +3,25 @@
 
   ![kangaroo](https://cldup.com/X4VwDx3Mlx.png)
 
-  Jump-start your front-end server. Bundles and configures the boilerplate of a Koa app. Originally inspired by [tj/serve](https://github.com/tj/serve).
+  Jump-start your front-end server. Bundles and configures the boilerplate of a Koa app.
+
+  Originally inspired by [tj/serve](https://github.com/tj/serve).
+
+## Goal
+
+Similar to how Heroku ushers you towards the [Twelve-Factor App](http://12factor.net/),
+the goal of Roo is to provide smart defaults for quickly building front-end servers,
+while keeping the library small and configurable.
+
+As the server landscape changes, we'll be adding and removing features. We will
+increment the major version each time we make these sorts of changes.
+
+Some ideas of features we're currently considering:
+
+- Express middleware support using [http-context](https://github.com/lapwinglabs/http-context).
+- Configurable logging using [bole](https://github.com/rvagg/bole).
+- Pluggable message queues to encourage stateless servers.
+- BrowserSync / LiveReload support
 
 ## Installation
 
@@ -24,7 +42,7 @@ npm install roo
   * Flexible: Javascript & CLI API
   * Deployable: Ready to be deployed to Dokku or Heroku
   * Composable: Mount Koa servers within or mount within other Koa servers.
-  * Higher-level: Templating, Routing & Duo baked-in
+  * Higher-level: Templating, Routing & Asset Bundling baked-in
 
 ## Example
 
@@ -34,7 +52,6 @@ npm install roo
 Roo(__dirname)
   .auth('username', 'password')
   .get('/', 'index.jade')
-  .duo('*.{js,css}')
   .exec('make build')
   .mount('/api', api)
   .compress()
@@ -57,7 +74,6 @@ Options:
   -a, --auth <user>:<pass>  specify basic auth credentials
   -p, --port <port>         specify the port [process.env.PORT || 3000]
   -f, --favicon <path>      serve the given favicon
-  -d, --duo <path|glob>     set a path or glob for duo [*.{css,js}]
   -i, --index               set the entry point for "/" [index.*]
   -s, --static <dir>        set a static path ["."]
   -c, --cors                allows cross origin access serving
@@ -128,13 +144,28 @@ Mount an app inside of `Roo` at `path`
 roo.mount('/dashboard', app);
 ```
 
-##### `Roo.duo(file|glob)`
+##### `Roo.bundle(fn|str, [options])`
 
-Pass a `file` or `glob` expression to be compiled using [duo](http://duojs.org).
+Pluggable asset bundler using [koa-bundle](https://github.com/koajs/bundle).
+
+Here's how you would use seamlessly bundle browserify assets:
+
+```js
+var roo = Roo(__dirname);
+
+roo.bundle(function(file) {
+  var browserify = Browserify();
+  browserify.add(file.path);
+  file.src = browserify.bundle();
+  return file;
+});
+
+roo.bundle('entry.js');
+```
 
 ##### `Roo.compress()`
 
-Compress CSS and JS assets
+Compress CSS and JS assets.
 
 ##### `Roo.directory()`
 
@@ -152,10 +183,12 @@ Enable `CORS` on the roo. `options` get passed directly to [node-cors](https://g
 
 Start the server on `port`. You may pass the environment variable `PORT=8080` in to specify a port. Otherwise it defaults to `3000` if otherwise not specified.
 
-## TODO
+## Test
 
-- LiveReload support
-- Tests would be nice
+```
+npm install
+make test
+```
 
 ## Why Roo?
 

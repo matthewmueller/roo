@@ -34,7 +34,8 @@
     "methods": "^1.1.0",
     "object-assign": "^2.0.0",
     "open": "0.0.5",
-    "serve-index": "^1.6.3"
+    "serve-index": "^1.6.3",
+    "throng": "^1.0.0"
   },
   "devDependencies": {
     "browserify": "^9.0.3",

@@ -7,6 +7,7 @@ var slice = [].slice;
 var kr = require('kr');
 var cwd = process.cwd();
 var koa = require('koa');
+var throng = require('throng');
 var views = require('co-views');
 var error = require('koa-error');
 var methods = require('methods');
@@ -50,6 +51,7 @@ function Roo(dir) {
   this.views = views(this.cwd, { default: 'jade', map: { html: 'hogan' }});
   this._bodyparser = bodyparser();
   this.tracing = trace.enabled;
+  this._cluster = false;
   this._error = error();
   this.bundler = null;
   this.children = [];
@@ -361,10 +363,13 @@ Roo.prototype.error = function(opts) {
  */
 
 Roo.prototype.listen = function(port, fn) {
+  var cluster = this.cluster();
+  var app = this.app;
+
   // add some middleware at the top
   // TODO right now this is silent, probably shouldn't be
-  this.app.middleware.unshift(this._error);
-  this.app.middleware.unshift(this._bodyparser);
+  app.middleware.unshift(this._error);
+  app.middleware.unshift(this._bodyparser);
 
   var p = process.env.PORT;
   port = port || p;
@@ -374,8 +379,35 @@ Roo.prototype.listen = function(port, fn) {
     port = p;
   }
 
-  return this.app.listen(port, fn);
+  return cluster
+    ? throng(start, cluster)
+    : start();
+
+  function start() {
+    return app.listen(port, fn);
+  }
 };
+
+/**
+ * Cluster / Zero-downtime support
+ *
+ * @param {Boolean|Object} cluster
+ * @return {Roo}
+ */
+
+Roo.prototype.cluster = function(cluster) {
+  if (!arguments.length) return this._cluster;
+  var defaults = { lifetime: Infinity };
+
+  if ('boolean' == typeof cluster && cluster) {
+    this._cluster = defaults;
+  } else {
+    this._cluster = assign(defaults, cluster);
+  }
+
+  return this;
+};
+
 
 /**
  * Render the jade `view`

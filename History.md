@@ -1,4 +1,17 @@
 
+0.3.0 / 2015-04-16
+==================
+
+  * readme and roo.cluster(opts) support
+  * cleanup dependencies. remove support for node 0.10.x
+  * replace duo specific code with more generic koa-bundle
+  * added: debug
+  * added: roo.bundle()
+  * add roo.bundle(...)
+  * update makefile
+  * add tests
+  * allow user to pass options to static middleware
+
 0.2.0 / 2015-01-19
 ==================
 

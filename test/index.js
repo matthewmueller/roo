@@ -212,6 +212,33 @@ describe('Roo', function() {
         .expect('from b', done)
     });
 
+    it('mount should work recursively', function() {
+      var dir = __dirname;
+      var a = Roo(dir);
+      var b = Roo(join(dir, 'a'))
+      var c = Roo(join(dir, 'b'))
+
+      b.mount('/', c);
+      a.mount('/', b);
+
+      assert.equal(dir, a.root());
+      assert.equal(dir, b.root());
+      assert.equal(dir, c.root());
+    })
+
+    it('mount should work recursively (order shouldnt matter)', function() {
+      var dir = __dirname;
+      var a = Roo(dir);
+      var b = Roo(join(dir, 'a'))
+      var c = Roo(join(dir, 'b'))
+
+      a.mount('/', b);
+      b.mount('/', c);
+
+      assert.equal(dir, a.root());
+      assert.equal(dir, b.root());
+      assert.equal(dir, c.root());
+    })
   });
 
   describe('roo.bundle(str|fn)', function() {

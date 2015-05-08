@@ -250,12 +250,16 @@ Roo.prototype.mount = function(path, app) {
     return mount(path, this.app);
   }
 
+
   // attach to the root roo
   if (app instanceof Roo) {
-    app.root(this.root())
-    if (!app.bundle()) {
-      app.bundler = this.bundle();
-    }
+    this.children.push(app);
+    walk(this, function(child) {
+      child.root(this.root())
+      if (!child.bundle()) {
+        child.bundler = this.bundle();
+      }
+    })
   }
 
   this.use(mount(path, app.app || app));
@@ -475,4 +479,21 @@ methods.forEach(function(method) {
 
 function tracer(gen) {
   console.log('implement tracer!');
+}
+
+/**
+ * Walk the `roo` mounts
+ *
+ * @param {Roo} roo
+ * @param {Function} fn
+ * @param {Roo} ctx (optional)
+ */
+
+function walk(roo, fn, ctx) {
+  ctx = ctx || roo;
+
+  for (var i = 0, child; child = roo.children[i]; i++) {
+    fn.call(ctx, child);
+    walk(child, fn, ctx);
+  }
 }

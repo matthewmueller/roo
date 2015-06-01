@@ -1,4 +1,9 @@
 
+0.3.2 / 2015-05-31
+==================
+
+  * make views just work (install jade and hogan.js by default)
+
 0.3.1 / 2015-05-07
 ==================
 

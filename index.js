@@ -424,6 +424,7 @@ Roo.prototype.cluster = function(cluster) {
 
 Roo.prototype.render = function *(view, locals) {
   locals = locals || {};
+  locals.env = process.env;
   var ext = extname(view).slice(1);
   if ('jade' == ext) locals.basedir = this.root();
   return yield this.views(view, locals);

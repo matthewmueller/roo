@@ -45,6 +45,20 @@ describe('Roo', function() {
           done();
         });
     })
+
+    it('should pass in environment variables by default', function(done) {
+      var roo = Roo(__dirname);
+      process.env.SOME_VARIABLE = 'some variable'
+      roo.get('/', './fixtures/env/index.jade')
+      request(roo.listen())
+        .get('/')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert.equal('<title>some variable</title>', res.text.trim());
+          done();
+        });
+    })
   })
 
   describe('roo.favicon(path)', function() {

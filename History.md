@@ -1,4 +1,9 @@
 
+0.3.3 / 2015-05-31
+==================
+
+  * pass process.env as env to templates by default (ex. title= env.NODE_ENV)
+
 0.3.2 / 2015-05-31
 ==================
 

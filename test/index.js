@@ -19,6 +19,34 @@ var join = path.join;
 
 describe('Roo', function() {
 
+  describe('roo.render(path, locals)', function() {
+    it('should support hogan templates', function(done) {
+      var roo = Roo(__dirname);
+      roo.get('/', './fixtures/html/index.html')
+      request(roo.listen())
+        .get('/')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert.equal('<h2>hi</h2>', res.text.trim());
+          done();
+        });
+    });
+
+    it('should support jade templates', function(done) {
+      var roo = Roo(__dirname);
+      roo.get('/', './fixtures/jade/index.jade')
+      request(roo.listen())
+        .get('/')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert.equal('<h1>header</h1><h2>hi</h2>', res.text.trim());
+          done();
+        });
+    })
+  })
+
   describe('roo.favicon(path)', function() {
     it('should support favicons', function(done) {
       var roo = Roo(__dirname);

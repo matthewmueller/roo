@@ -19,6 +19,8 @@
     "commander": "^2.5.0",
     "debug": "2",
     "glob": "^4.0.6",
+    "hogan.js": "^3.0.2",
+    "jade": "^1.10.0",
     "kcors": "1",
     "koa": "~0.13.0",
     "koa-basic-auth": "^1.1.2",
@@ -41,7 +43,6 @@
     "browserify": "^9.0.3",
     "catch-stdout": "0.0.1",
     "duo": "^0.9.6",
-    "jade": "^1.9.2",
     "mocha": "2.x",
     "supertest": "^0.15.0"
   },

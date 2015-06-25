@@ -61,7 +61,7 @@ process.argv.slice(2).forEach(function(arg){
       break;
   }
 });
-console.log(args);
+
 var proc = spawn(process.execPath, args, { stdio: 'inherit' });
 proc.on('exit', function (code, signal) {
   process.on('exit', function(){

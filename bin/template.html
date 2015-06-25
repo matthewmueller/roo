@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{#if title}}{{title}}{{^}}ROO{{/if}}</title>
+    {{#styles}}
+      <link rel="stylesheet" href="{{this}}">
+    {{/styles}}
+  </head>
+  <body>
+    {{#each scripts}}
+      <script src="/{{this}}"></script>
+    {{/each}}
+    {{#if live}}
+      <script src="http://localhost:35729/livereload.js?snipver=1"></script>
+    {{/if}}
+  </body>
+</html>

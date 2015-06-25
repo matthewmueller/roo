@@ -48,7 +48,7 @@ methods.push('all');
 function Roo(dir) {
   if (!(this instanceof Roo)) return new Roo(dir);
   this.cwd = this._root = dir || cwd;
-  this.views = views(this.cwd, { default: 'jade', map: { html: 'hogan' }});
+  this.views = views(this.cwd, { default: 'jade', map: { html: 'handlebars' }});
   this._bodyparser = bodyparser();
   this.tracing = trace.enabled;
   this._cluster = false;

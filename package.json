@@ -19,7 +19,7 @@
     "commander": "^2.5.0",
     "debug": "2",
     "glob": "^4.0.6",
-    "hogan.js": "^3.0.2",
+    "handlebars": "^3.0.3",
     "jade": "^1.10.0",
     "kcors": "1",
     "koa": "~0.13.0",
@@ -34,10 +34,13 @@
     "koa-static": "^1.4.7",
     "kr": "0.0.1",
     "methods": "^1.1.0",
+    "minimist": "^1.1.1",
+    "multiline": "^1.0.2",
     "object-assign": "^2.0.0",
     "open": "0.0.5",
     "serve-index": "^1.6.3",
-    "throng": "^1.0.0"
+    "throng": "^1.0.0",
+    "www-bundle": "^1.0.3"
   },
   "devDependencies": {
     "browserify": "^9.0.3",

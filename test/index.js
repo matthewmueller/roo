@@ -20,7 +20,7 @@ var join = path.join;
 describe('Roo', function() {
 
   describe('roo.render(path, locals)', function() {
-    it('should support hogan templates', function(done) {
+    it('should support handlebar templates', function(done) {
       var roo = Roo(__dirname);
       roo.get('/', './fixtures/html/index.html')
       request(roo.listen())

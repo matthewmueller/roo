@@ -1,4 +1,10 @@
 
+0.4.0 / 2015-06-25
+==================
+
+  * add wtch and update help
+  * make executable more like beefy
+
 0.3.3 / 2015-05-31
 ==================
 

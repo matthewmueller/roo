@@ -40,6 +40,7 @@
     "open": "0.0.5",
     "serve-index": "^1.6.3",
     "throng": "^1.0.0",
+    "wtch": "^3.2.1",
     "www-bundle": "^1.0.3"
   },
   "devDependencies": {

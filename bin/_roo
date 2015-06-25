@@ -22,28 +22,30 @@ var argv = require('minimist')(process.argv.slice(2));
  */
 
 var help = m(function() {/*
-Usage: roo [options] <assets, ...>
 
-  Options:
+  Usage: roo [options] <assets, ...>
 
-    -h, --help                output usage information
-    -V, --version             output the version number
-    -p, --port <port>         specify the port [process.env.PORT]
-    -r, --root <root>         specify a root [process.cwd()]
-    -l, --live                enable livereload
-    -o, --open                enable open
+    Options:
 
-  Examples:
+      -h, --help                output usage information
+      -V, --version             output the version number
+      -p, --port <port>         specify the port [process.env.PORT]
+      -r, --root <root>         specify a root [process.cwd()]
+      -l, --live                enable livereload
+      -o, --open                enable open
 
-    # compile index.js
-    roo index.js
+    Examples:
 
-    # create a react app (note: argument order matters)
-    #
-    # add { browser: { "react": "react/dist/react.js" } }
-    # to your package.json
-    npm install react normalize.css
-    roo index.css react normalize.css index.js
+      # compile index.js and index.css and add to the page
+
+        roo index.js index.css
+
+      # create a react app (note: argument order matters) and
+      # add { browser: { "react": "react/dist/react.js" } }
+      # to your package.json, then run:
+
+        npm install react normalize.css
+        roo index.css react normalize.css index.js
 
 */});
 
@@ -119,7 +121,8 @@ var assets = argv._.map(function(asset) {
  */
 
 if (!assets.length) {
-  console.error('');
+  console.log(help);
+  process.exit(0);
 }
 
 /**

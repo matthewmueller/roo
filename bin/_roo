@@ -149,9 +149,10 @@ assets.forEach(function(asset) {
  */
 
 roo.get(/.*/, function *(next) {
+  var host = '//' + this.host + '/';
   this.body = yield roo.render(template, {
-    scripts: scripts,
-    styles: styles,
+    scripts: scripts.map(function(script) { return host + script }),
+    styles: styles.map(function(style) { return host + style }),
     live: !!argv.live
   })
 })

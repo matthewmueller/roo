@@ -480,6 +480,8 @@ methods.forEach(function(method) {
 
 function tracer(gen) {
   console.log('implement tracer!');
+
+  return gen;
 }
 
 /**

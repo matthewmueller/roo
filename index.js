@@ -184,6 +184,7 @@ Roo.prototype.logger = function(filter) {
 
 Roo.prototype.auth = function(user, pass) {
   var auth = require('koa-basic-auth');
+  this.app.use(enter_credentials);
   this.app.use(auth({ name: user, pass: pass }));
   return this;
 };
@@ -470,6 +471,19 @@ methods.forEach(function(method) {
     return this
   };
 });
+
+function * enter_credentials (next) {
+  try {
+    yield next;
+  } catch (err) {
+    if (401 == err.status) {
+      this.status = 401;
+      this.set('WWW-Authenticate', 'Basic');
+    } else {
+      throw err;
+    }
+  }
+}
 
 /**
  * Trace the middleware

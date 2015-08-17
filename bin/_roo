@@ -149,7 +149,7 @@ assets.forEach(function(asset) {
  */
 
 roo.get(/.*/, function *(next) {
-  var host = '//' + this.host + '/';
+  var host = this.protocol + '://' + this.host + '/';
   this.body = yield roo.render(template, {
     scripts: scripts.map(function(script) { return host + script }),
     styles: styles.map(function(style) { return host + style }),

@@ -1,4 +1,9 @@
 
+0.5.0 / 2015-10-10
+==================
+
+  * deprecate node 0.12 support for roo(1) by removing harmony proxy stuff for node 4
+
 0.4.5 / 2015-08-17
 ==================
 

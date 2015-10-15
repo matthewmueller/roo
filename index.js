@@ -10,6 +10,7 @@ var koa = require('koa');
 var throng = require('throng');
 var views = require('co-views');
 var error = require('koa-error');
+var Timer = require('koa-timer');
 var methods = require('methods');
 var assign = require('object-assign');
 var resolve = require('path').resolve;
@@ -49,6 +50,7 @@ function Roo(dir) {
   if (!(this instanceof Roo)) return new Roo(dir);
   this.cwd = this._root = dir || cwd;
   this.views = views(this.cwd, { default: 'jade', map: { html: 'handlebars' }});
+  this._timer = Timer({ debug: 'trace:time' })
   this._bodyparser = bodyparser();
   this.tracing = trace.enabled;
   this._cluster = false;
@@ -218,13 +220,29 @@ Roo.prototype.exec = function(cmd) {
  */
 
 Roo.prototype.use = function(gen) {
-  // trace all middleware
-  this.tracing
-    ? this.app.use(tracer(gen))
-    : this.app.use(gen);
+  trace
+    ? this.app.use(this._timer(gen))
+    : this.app.use(gen)
 
   return this;
 };
+
+/**
+ * Time the middleware
+ *
+ * @param {Object} opts
+ * @return {Roo}
+ * @api public
+ */
+
+Roo.prototype.time = function (opts) {
+  if (!arguments.length) {
+    return this._timer
+  }
+
+  this._timer = new Timer(opts)
+  return this
+}
 
 /**
  * Mount `Roo` inside another koa app
@@ -483,19 +501,6 @@ function * enter_credentials (next) {
       throw err;
     }
   }
-}
-
-/**
- * Trace the middleware
- *
- * @param {Generator} gen
- * @return {Generator}
- */
-
-function tracer(gen) {
-  console.log('implement tracer!');
-
-  return gen;
 }
 
 /**

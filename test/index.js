@@ -103,7 +103,7 @@ describe('Roo', function() {
         .expect(401)
         .end(function(err, res) {
           if (err) return done(err);
-          assert('nope.' == res.text);
+          assert.equal(res.text, 'Unauthorized')
 
           request(server)
             .get('/')

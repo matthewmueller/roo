@@ -41,32 +41,22 @@ Initialize `Roo`.
 
 Add a route to `Roo`. Routing is powered by [kr](https://github.com/lapwinglabs/kr), so visit there for API details.
 
-Additionally, you may pass a `filepath` to `handle`, which will render using [consolidate](https://github.com/tj/consolidate.js).
-
 ```js
-roo
-  .get('/', 'index.jade')
-  .post('/signup', signup)
+roo.post('/signup', signup)
 ```
 
 ##### `Roo.use(generator)`
 
 Pass additional middleware `generator`'s to `Roo`.
 
-##### `Roo.mount(path)`
-
-Mount inside another app at `path`.
-
-```js
-app.use(roo.mount('/dashboard'));
-```
-
 ##### `Roo.mount([path], app)`
 
 Mount an app inside of `Roo` at `path`. `path` defaults to `/`
 
 ```js
-roo.mount('/dashboard', app);
+const app = roo()
+const dash = roo()
+app.mount('/dashboard', dash);
 ```
 
 ##### `Roo.listen(port, fn)`

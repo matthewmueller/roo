@@ -1,4 +1,10 @@
 
+2.0.1 / 2016-10-15
+==================
+
+  * json only error responses
+  * minor readme updates
+
 2.0.0 / 2016-10-15
 ==================
 

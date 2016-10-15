@@ -1,6 +1,6 @@
 {
   "name": "roo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "tiny koa server",
   "keywords": [
     "server",

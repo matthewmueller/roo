@@ -65,7 +65,7 @@ describe('Roo', function () {
 
   describe('routing', function () {
     it('should support GET requests', function (done) {
-      var roo = Roo(__dirname)
+      var roo = Roo()
       roo.get('/user', function *() {
         this.body = 'matt'
       })
@@ -81,7 +81,7 @@ describe('Roo', function () {
     })
 
     it('should suport post requests', function (done) {
-      var roo = Roo(__dirname)
+      var roo = Roo()
       roo.post('/user', function *() {
         this.body = 'matt'
       })
@@ -97,7 +97,7 @@ describe('Roo', function () {
     })
 
     it('should support parameters', function (done) {
-      var roo = Roo(__dirname)
+      var roo = Roo()
       roo.post('/:user', function *() {
         assert('matt' == this.params.user)
         this.body = 'matt'
@@ -109,6 +109,72 @@ describe('Roo', function () {
         .end(function (err, res) {
           if (err) return done(err)
           assert(res.text == 'matt')
+          done()
+        })
+    })
+  })
+
+  describe('errors', (done) => {
+    it('should handle unexpected errors', (done) => {
+      var roo = Roo()
+      roo.post('/:user', function * () {
+        oh.dear.lol
+      })
+
+      request(roo.listen())
+        .post('/matt')
+        .expect(500)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.message, 'oh is not defined')
+          assert.equal(res.status, 500)
+          done()
+        })
+    })
+
+    it('should handle thrown errors', (done) => {
+      var roo = Roo()
+      roo.post('/:user', function * () {
+        this.throw(403)
+      })
+
+      request(roo.listen())
+        .post('/matt')
+        .expect(403)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.message, 'Forbidden')
+          assert.equal(res.status, 403)
+          done()
+        })
+    })
+
+    it('should handle custom messages', (done) => {
+      var roo = Roo()
+      roo.post('/:user', function * () {
+        this.throw(403, 'you shall not pass')
+      })
+
+      request(roo.listen())
+        .post('/matt')
+        .expect(403)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.message, 'you shall not pass')
+          assert.equal(res.status, 403)
+          done()
+        })
+    })
+
+    it('should handle 404s', (done) => {
+      var roo = Roo()
+      request(roo.listen())
+        .post('/matt')
+        .expect(404)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.message, 'Not Found')
+          assert.equal(res.status, 404)
           done()
         })
     })

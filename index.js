@@ -11,7 +11,7 @@ const koa = require('koa')
  */
 
 const bodyparser = require('koa-bodyparser')
-const error = require('koa-error')
+const error = require('./src/error')
 const mount = require('koa-mount')
 const kr = require('kr')
 
